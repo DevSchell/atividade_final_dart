@@ -6,6 +6,7 @@ import 'package:yaansi/yaansi.dart';
 void main() async {
   bool isRunning = true;
   while (isRunning) {
+    //TODO: limpar código com função consoleClear()
     print("Olá, Leandro. Que relatório você precisa?");
     print("1 - Temperatura");
     print("2 - Umidade");
@@ -436,7 +437,7 @@ abstract class dadosOrganizados {
 
 class DataLine extends dadosOrganizados {}
 
-void clearConsole() {
+void consoleClear() {
   print('\n' * 100);
 }
 
