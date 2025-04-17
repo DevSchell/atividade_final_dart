@@ -385,6 +385,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  yaansi:
+    dependency: "direct main"
+    description:
+      name: yaansi
+      sha256: f8d5c588e3d51465ac25637f63d5e80725e3715d0a17b51c867dc8ae56ca282a
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   yaml:
     dependency: transitive
     description:
