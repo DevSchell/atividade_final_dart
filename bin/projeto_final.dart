@@ -23,34 +23,84 @@ void main() async {
         print("2 - SP");
         print("==========================");
         opt1 = stdin.readLineSync();
-        clearConsole();
 
+        if (opt1 == "1") {
+          opt1 = "SC";
+        } else if (opt1 == "2") {
+          opt1 = "SP";
+        }
 
         print("==========================");
         print("Insira a opção de mês em número:  ");
         opt2 = stdin.readLineSync();
-        print("Coletando valores, aguarde...");
-        print("==========================");
+
+
 
         //Lógica com mês específico
-        final listaDeObj = gerarListaObj(opt1.toString(), opt2.toString());
-        print(listaDeObj);
-        var tempMaxima = getTempMaxEstadoMes(await listaDeObj);
-        var tempMinima = getTempMinEstadoMes(await listaDeObj);
-        var tempMediaHora = getTempMedEstadoHora(await listaDeObj);
+        try {
+          final listaDeObj = gerarListaObj(opt1.toString(), opt2.toString());
 
+        double tempMediaEstado =  await getTempMedEstadoMes(await listaDeObj);
+        double tempMaxima = await getTempMaxEstadoMes(await listaDeObj);
+        double tempMinima = await getTempMinEstadoMes(await listaDeObj);
+        double tempMediaHora = await getTempMedEstadoHora(await listaDeObj);
+
+        print("");
+        print("===== Temperaturas =====");
+        print("");
+        print("===== Temperatura média do mês no estado =====");
+          print("Celsius: ${tempMediaEstado.toStringAsFixed(2)}ºC");
+          print("Fahrenheit: ${celsiusFahrenheit(await tempMediaEstado).toStringAsFixed(2)}ºF");
+          print("Kelvin: ${celsiusKelvin(await tempMediaEstado).toStringAsFixed(2)}ºK");
+        print("");
+        print("===== Temperatura máxima do mês no estado =====");
+          print("Celsius: $tempMaximaºC");
+          print("Fahrenheit: ${celsiusFahrenheit(tempMaxima).toStringAsFixed(2)}ºF");
+          print("Kelvin: ${celsiusKelvin(tempMaxima).toStringAsFixed(2)}ºK");
         print("=========================================================");
-        print("Buscando dados referentes ao estado e mês selecionados: ");
+        print("");
+        print("===== Temperatura mínima do mês no estado =====");
+          print("Celsius: $tempMaximaºC");
+          print("Fahrenheit: ${celsiusFahrenheit(await tempMinima).toStringAsFixed(2)}ºF");
+          print("Kelvin: ${celsiusKelvin(await tempMinima).toStringAsFixed(2)}ºK");
+        print("=========================================================");
+        print("");
+        print("===== Temperatura média por hora do estado =====");
+          print("Celsius: ${tempMediaHora.toStringAsFixed(2)}ºC");
+          print("Fahrenheit: ${celsiusFahrenheit(tempMaxima).toStringAsFixed(2)}ºF");
+          print("Kelvin: ${celsiusKelvin(tempMaxima).toStringAsFixed(2)}ºK");
+        print("=========================================================");
+        print("");
+        print("Buscando dados referentes ao estado e mês selecionados, aguarde... ");
 
         //Lógica envolvendo o ano inteiro
-        // List<List<DataLine>> listaDeMeses = await getMeses(opt1.toString());
-        // double mediaAno = await getTempMedEstadoAno(listaDeMeses);
-        // double maxAno = await getTempMaxEstadoAno(listaDeMeses);
-        // double minAno = await getTempMinEstadoAno(listaDeMeses);
+        List<List<DataLine>> listaDeMeses = await getMeses(opt1.toString());
+        double mediaAno = await getTempMedEstadoAno(listaDeMeses);
+        double maxAno = await getTempMaxEstadoAno(listaDeMeses);
+        double minAno = await getTempMinEstadoAno(listaDeMeses);
 
+        print("===== Temperatura média anual =====");
+          print("Celsius: ${mediaAno.toStringAsFixed(2)}ºC");
+          print("Fahrenheit: ${celsiusFahrenheit(await mediaAno).toStringAsFixed(2)}ºF");
+          print("Kelvin: ${celsiusKelvin(await mediaAno).toStringAsFixed(2)}ºK");
+        print("");
+        print("===== Temperatura máxima anual =====");
+          print("Celsius: ${mediaAno.toStringAsFixed(2)}ºC");
+          print("Fahrenheit: ${celsiusFahrenheit(await mediaAno).toStringAsFixed(2)}ºF");
+          print("Kelvin: ${celsiusKelvin(await mediaAno).toStringAsFixed(2)}ºK");
+        print("");
+        print("===== Temperatura mínima anual =====");
+          print("Celsius: ${minAno.toStringAsFixed(2)}ºC");
+          print("Fahrenheit: ${celsiusFahrenheit(minAno).toStringAsFixed(2)}ºF");
+          print("Kelvin: ${celsiusKelvin(minAno).toStringAsFixed(2)}ºK");
+          print("");
 
-        //Esse stdin aq faz o programa esperar um toque no enter pra depois rodar o loop do menu novamente
-        stdin.readLineSync();
+        } catch (e){
+          print(e);
+        } finally {
+          //Esse stdin aq faz o programa esperar um toque no enter pra depois rodar o loop do menu novamente
+          stdin.readLineSync();
+        }
         break;
 
       case "2":
@@ -75,6 +125,12 @@ void main() async {
     }
   }
 }
+
+//Função pra converter celsius pra kelvin
+double celsiusKelvin(double grausCelsius) => grausCelsius + 273.15;
+
+//Função pra converter celsius pra fahrenheit
+double celsiusFahrenheit(double grausCelsius) => grausCelsius * 1.8 + 32;
 
 //Função pra conseguir a direção do vento mais frequente do ano
 Future<int> getDirecaoVentoFrequenteAno(List<List<DataLine>> listaMeses) async{
@@ -378,7 +434,7 @@ abstract class dadosOrganizados {
 class DataLine extends dadosOrganizados {}
 
 void clearConsole() {
-  print('\x1B[2J\x1B[0;0H');
+  print('\n' * 100);
 }
 
 //TODO:Apagar depois...
