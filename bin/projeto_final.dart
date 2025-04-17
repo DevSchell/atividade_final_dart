@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:yaansi/yaansi.dart';
+
 void main() async {
   bool isRunning = true;
   while (isRunning) {
@@ -48,27 +50,27 @@ void main() async {
         print("");
         print("===== Temperaturas =====");
         print("");
-        print("===== Temperatura média do mês no estado =====");
-          print("Celsius: ${tempMediaEstado.toStringAsFixed(2)}ºC");
-          print("Fahrenheit: ${celsiusFahrenheit(await tempMediaEstado).toStringAsFixed(2)}ºF");
-          print("Kelvin: ${celsiusKelvin(await tempMediaEstado).toStringAsFixed(2)}ºK");
+        print("===== Temperatura média do mês no estado de $opt1 =====");
+          print("Celsius: ${red(tempMediaEstado.toStringAsFixed(2))}${red("ºC")}");
+          print("Fahrenheit: ${yellow(celsiusFahrenheit(await tempMediaEstado).toStringAsFixed(2))}${yellow("ºF")}");
+          print("Kelvin: ${blue(celsiusKelvin(await tempMediaEstado).toStringAsFixed(2))}${blue("ºK")}");
         print("");
-        print("===== Temperatura máxima do mês no estado =====");
-          print("Celsius: $tempMaximaºC");
-          print("Fahrenheit: ${celsiusFahrenheit(tempMaxima).toStringAsFixed(2)}ºF");
-          print("Kelvin: ${celsiusKelvin(tempMaxima).toStringAsFixed(2)}ºK");
+        print("===== Temperatura máxima do mês no estado $opt1 =====");
+          print("Celsius: ${red(tempMaxima.toStringAsFixed(2))}${red("ºC")}");
+          print("Fahrenheit: ${yellow(celsiusFahrenheit(tempMaxima).toStringAsFixed(2))}${yellow("ºF")}");
+          print("Kelvin: ${blue(celsiusKelvin(tempMaxima).toStringAsFixed(2))}${blue("ºK")}");
         print("=========================================================");
         print("");
-        print("===== Temperatura mínima do mês no estado =====");
-          print("Celsius: $tempMaximaºC");
-          print("Fahrenheit: ${celsiusFahrenheit(await tempMinima).toStringAsFixed(2)}ºF");
-          print("Kelvin: ${celsiusKelvin(await tempMinima).toStringAsFixed(2)}ºK");
+        print("===== Temperatura mínima do mês no estado $opt1 =====");
+          print("Celsius: ${red(tempMaxima.toStringAsFixed(2))}${red("ºC")}");
+          print("Fahrenheit: ${yellow(celsiusFahrenheit(await tempMinima).toStringAsFixed(2))}${yellow("ºF")}");
+          print("Kelvin: ${blue(celsiusKelvin(await tempMinima).toStringAsFixed(2))}${blue("ºK")}");
         print("=========================================================");
         print("");
-        print("===== Temperatura média por hora do estado =====");
-          print("Celsius: ${tempMediaHora.toStringAsFixed(2)}ºC");
-          print("Fahrenheit: ${celsiusFahrenheit(tempMaxima).toStringAsFixed(2)}ºF");
-          print("Kelvin: ${celsiusKelvin(tempMaxima).toStringAsFixed(2)}ºK");
+        print("===== Temperatura média por hora do estado $opt1 =====");
+          print("Celsius: ${red(tempMediaHora.toStringAsFixed(2))}${red("ºC")}");
+          print("Fahrenheit: ${yellow(celsiusFahrenheit(tempMaxima).toStringAsFixed(2))}${yellow("ºF")}");
+          print("Kelvin: ${blue(celsiusKelvin(tempMaxima).toStringAsFixed(2))}${blue("ºK")}");
         print("=========================================================");
         print("");
         print("Buscando dados referentes ao estado e mês selecionados, aguarde... ");
@@ -79,21 +81,22 @@ void main() async {
         double maxAno = await getTempMaxEstadoAno(listaDeMeses);
         double minAno = await getTempMinEstadoAno(listaDeMeses);
 
-        print("===== Temperatura média anual =====");
-          print("Celsius: ${mediaAno.toStringAsFixed(2)}ºC");
-          print("Fahrenheit: ${celsiusFahrenheit(await mediaAno).toStringAsFixed(2)}ºF");
-          print("Kelvin: ${celsiusKelvin(await mediaAno).toStringAsFixed(2)}ºK");
+        print("===== Temperatura média anual $opt1 =====");
+          print("Celsius: ${red(mediaAno.toStringAsFixed(2))}${red("ºC")}");
+          print("Fahrenheit: ${yellow(celsiusFahrenheit(await mediaAno).toStringAsFixed(2))}${yellow("ºF")}");
+          print("Kelvin: ${blue(celsiusKelvin(await mediaAno).toStringAsFixed(2))}${blue("ºK")}");
         print("");
-        print("===== Temperatura máxima anual =====");
-          print("Celsius: ${mediaAno.toStringAsFixed(2)}ºC");
-          print("Fahrenheit: ${celsiusFahrenheit(await mediaAno).toStringAsFixed(2)}ºF");
-          print("Kelvin: ${celsiusKelvin(await mediaAno).toStringAsFixed(2)}ºK");
+        print("===== Temperatura máxima anual $opt1 =====");
+          print("Celsius: ${red(maxAno.toStringAsFixed(2))}${red("ºC")}");
+          print("Fahrenheit: ${yellow(celsiusFahrenheit(await maxAno).toStringAsFixed(2))}${red("ºF")}");
+          print("Kelvin: ${blue(celsiusKelvin(await maxAno).toStringAsFixed(2))}${blue("ºK")}");
         print("");
-        print("===== Temperatura mínima anual =====");
-          print("Celsius: ${minAno.toStringAsFixed(2)}ºC");
-          print("Fahrenheit: ${celsiusFahrenheit(minAno).toStringAsFixed(2)}ºF");
-          print("Kelvin: ${celsiusKelvin(minAno).toStringAsFixed(2)}ºK");
+        print("===== Temperatura mínima anual $opt1 =====");
+          print("Celsius: ${red(minAno.toStringAsFixed(2))}${red("ºC")}");
+          print("Fahrenheit: ${yellow(celsiusFahrenheit(minAno).toStringAsFixed(2))}${yellow("ºF")}");
+          print("Kelvin: ${blue(celsiusKelvin(minAno).toStringAsFixed(2))}${blue("ºK")}");
           print("");
+          print("Busca concluída. Pressiona enter para voltar ao menu"); //TODO: daqui vai ter a opção de baixar relatório
 
         } catch (e){
           print(e);
