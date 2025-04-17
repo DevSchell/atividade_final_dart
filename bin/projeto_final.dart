@@ -14,72 +14,51 @@ void main() async {
 
     switch (opt) {
       case "1":
-        //Trabalhando com mês
-        final listaDeObj = gerarListaObj("SC", "1");
-        var tempMaxima = await getTempMaxEstadoMes(await listaDeObj);
-        print("Temperatura máxima: $tempMaximaº celsius");
+        late dynamic opt1;
+        late dynamic opt2;
 
-        var tempMinima = await getTempMinEstadoMes(await listaDeObj);
-        print("Temperatura mínima: $tempMinimaº celsius");
+        print("==========================");
+        print("Insira a opção de estado: ");
+        print("1 - SC");
+        print("2 - SP");
+        print("==========================");
+        opt1 = stdin.readLineSync();
+        clearConsole();
 
-        var tempMediaHora = await getTempMedEstadoHora(await listaDeObj);
-        print(
-          "Temperatura média por hora do estado: ${tempMediaHora.toStringAsFixed(2)}º celsius",
-        );
 
-        //Trabalhando com ano
-        List<List<DataLine>> listaDeMeses = await getMeses("SC");
-        double mediaAno = await getTempMedEstadoAno(await listaDeMeses);
-        print("Temperatura média do ano: ${mediaAno.toStringAsFixed(2)}");
+        print("==========================");
+        print("Insira a opção de mês em número:  ");
+        opt2 = stdin.readLineSync();
+        print("Coletando valores, aguarde...");
+        print("==========================");
 
-        double maxAno = await getTempMaxEstadoAno(await listaDeMeses);
-        print("Temperatura máxima do ano: $maxAno");
+        //Lógica com mês específico
+        final listaDeObj = gerarListaObj(opt1.toString(), opt2.toString());
+        print(listaDeObj);
+        var tempMaxima = getTempMaxEstadoMes(await listaDeObj);
+        var tempMinima = getTempMinEstadoMes(await listaDeObj);
+        var tempMediaHora = getTempMedEstadoHora(await listaDeObj);
 
-        double minAno = await getTempMinEstadoAno(await listaDeMeses);
-        print("Temperatura mínima do ano: $minAno");
+        print("=========================================================");
+        print("Buscando dados referentes ao estado e mês selecionados: ");
+
+        //Lógica envolvendo o ano inteiro
+        // List<List<DataLine>> listaDeMeses = await getMeses(opt1.toString());
+        // double mediaAno = await getTempMedEstadoAno(listaDeMeses);
+        // double maxAno = await getTempMaxEstadoAno(listaDeMeses);
+        // double minAno = await getTempMinEstadoAno(listaDeMeses);
+
+
+        //Esse stdin aq faz o programa esperar um toque no enter pra depois rodar o loop do menu novamente
+        stdin.readLineSync();
         break;
 
       case "2":
-        //Trabalhando com mês
-        final listaDeObj = gerarListaObj(
-          "SC",
-          "1",
-        ); //Objeto teste com funções referentes à "mês"
 
-        double umidadeMediaMes = await getUmidadeMedEstadoMes(await listaDeObj);
-        print("Umidade média: ${umidadeMediaMes.toStringAsFixed(2)}");
-
-        double umidadeMaxMes = await getUmidadeMaxEstadoMes(await listaDeObj);
-        print("Umidade máxima do mês: ${umidadeMaxMes.toStringAsFixed(2)}");
-
-        double umidadeMin = await getUmidadeMinEstadoMes(await listaDeObj);
-        print("Umidade mínima do mês: ${umidadeMin.toStringAsFixed(2)}");
-
-        //Trabalhando com ano
-        List<List<DataLine>> listaDeMeses = await getMeses("SC");
-
-        double umidadeMediaAno = await getUmidadeMedEstadoAno(
-          await listaDeMeses,
-        );
-        print("umidade média do ano: ${umidadeMediaAno.toStringAsFixed(2)}");
-
-        double umidadeMaxAno = await getUmidadeMaxEstadoAno(await listaDeMeses);
-        print("Umidade máxima do ano: ${umidadeMaxAno.toStringAsFixed(2)}");
-
-        double umidadeMinAno = await getUmidadeMinEstadoAno(await listaDeMeses);
-        print("Umidade mínima do ano: ${umidadeMinAno.toStringAsFixed(2)}");
         break;
 
       case "3":
-        //Trabalhando com mês
-        final listaDeObj = gerarListaObj("SC", "1");
-        final direcaoFrequente = await getDirecaoVentoFrequenteMes(await listaDeObj);
-        print("Direção mais frequente: $direcaoFrequente");
 
-        //Trabalhando com ano
-        final List<List<DataLine>> listaDeMeses = await getMeses("SC");
-        final int direcaoVentoFrequenteAno = await getDirecaoVentoFrequenteAno(listaDeMeses);
-        print("Direção do vento mais frequente no último ano: $direcaoVentoFrequenteAno");
         break;
 
       case "4":
@@ -332,7 +311,7 @@ List<String> tratarDados(String linha) {
 
 //Method responsável por criar um objeto que representa a linha de dados do arquivo
 Future<DataLine> gerarObj(String userPath, int index) async {
-  final dados = await lerArquivoCSV(userPath, "1"); //TODO: atualizar parâmetro
+  final dados = await lerArquivoCSV(userPath.toString(), "1"); //TODO: atualizar parâmetro
   final linha = tratarDados(dados[index]);
 
   DataLine d = new DataLine();
@@ -398,4 +377,48 @@ abstract class dadosOrganizados {
 
 class DataLine extends dadosOrganizados {}
 
+void clearConsole() {
+  print('\x1B[2J\x1B[0;0H');
+}
 
+//TODO:Apagar depois...
+//CASE 2
+//Trabalhando com mês
+// final listaDeObj = gerarListaObj(
+//   "SC",
+//   "1",
+// ); //Objeto teste com funções referentes à "mês"
+//
+// // double umidadeMediaMes = await getUmidadeMedEstadoMes(await listaDeObj);
+// // print("Umidade média: ${umidadeMediaMes.toStringAsFixed(2)}");
+// //
+// // double umidadeMaxMes = await getUmidadeMaxEstadoMes(await listaDeObj);
+// // print("Umidade máxima do mês: ${umidadeMaxMes.toStringAsFixed(2)}");
+// //
+// // double umidadeMin = await getUmidadeMinEstadoMes(await listaDeObj);
+// // print("Umidade mínima do mês: ${umidadeMin.toStringAsFixed(2)}");
+// //
+// // //Trabalhando com ano
+// // List<List<DataLine>> listaDeMeses = await getMeses("SC");
+// //
+// // double umidadeMediaAno = await getUmidadeMedEstadoAno(
+// // await listaDeMeses,
+// // );
+// // print("umidade média do ano: ${umidadeMediaAno.toStringAsFixed(2)}");
+// //
+// // double umidadeMaxAno = await getUmidadeMaxEstadoAno(await listaDeMeses);
+// // print("Umidade máxima do ano: ${umidadeMaxAno.toStringAsFixed(2)}");
+// //
+// // double umidadeMinAno = await getUmidadeMinEstadoAno(await listaDeMeses);
+// // print("Umidade mínima do ano: ${umidadeMinAno.toStringAsFixed(2)}");
+
+//CASE 3
+//Trabalhando com mês
+// final listaDeObj = gerarListaObj("SC", "1");
+// final direcaoFrequente = await getDirecaoVentoFrequenteMes(await listaDeObj);
+// print("Direção mais frequente: $direcaoFrequente");
+//
+// //Trabalhando com ano
+// final List<List<DataLine>> listaDeMeses = await getMeses("SC");
+// final int direcaoVentoFrequenteAno = await getDirecaoVentoFrequenteAno(listaDeMeses);
+// print("Direção do vento mais frequente no último ano: $direcaoVentoFrequenteAno");
