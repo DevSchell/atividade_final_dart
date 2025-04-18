@@ -11,9 +11,13 @@ void main() async {
     print("1 - Temperatura");
     print("2 - Umidade");
     print("3 - Direção do vento");
-    print("4 - Sair do programa");
+    print("4 - Salvar relatório");
+    print("5 - Sair do programa");
     print("Digite o número da opção desejada: ");
     String? opt = stdin.readLineSync();
+
+    //Cada inicialização gera um objeto "Relatorio"
+    Relatorio relatorio = new Relatorio();
 
     switch (opt) {
       case "1":
@@ -55,24 +59,49 @@ void main() async {
           print("Celsius: ${red(tempMediaEstado.toStringAsFixed(2))}${red("ºC")}");
           print("Fahrenheit: ${yellow(celsiusFahrenheit(await tempMediaEstado).toStringAsFixed(2))}${yellow("ºF")}");
           print("Kelvin: ${blue(celsiusKelvin(await tempMediaEstado).toStringAsFixed(2))}${blue("ºK")}");
+        print("=========================================================");
+
+          //Adicionar valores ao objeto "relatorio"
+          relatorio.tempMediaEstadoAnoC = tempMediaEstado;
+          relatorio.tempMediaEstadoAnoF = celsiusFahrenheit(tempMediaEstado);
+          relatorio.tempMediaEstadoAnoK = celsiusKelvin(tempMediaEstado);
+
         print("");
         print("===== Temperatura máxima do mês no estado $opt1 =====");
           print("Celsius: ${red(tempMaxima.toStringAsFixed(2))}${red("ºC")}");
           print("Fahrenheit: ${yellow(celsiusFahrenheit(tempMaxima).toStringAsFixed(2))}${yellow("ºF")}");
           print("Kelvin: ${blue(celsiusKelvin(tempMaxima).toStringAsFixed(2))}${blue("ºK")}");
         print("=========================================================");
+
+          //Adiciona valores ao objeto "relatorio"
+          relatorio.tempMaxEstadoAnoC = tempMaxima;
+          relatorio.tempMaxEstadoAnoF = celsiusFahrenheit(tempMaxima);
+          relatorio.tempMaxEstadoAnoK = celsiusKelvin(tempMaxima);
+
         print("");
         print("===== Temperatura mínima do mês no estado $opt1 =====");
-          print("Celsius: ${red(tempMaxima.toStringAsFixed(2))}${red("ºC")}");
+          print("Celsius: ${red(tempMinima.toStringAsFixed(2))}${red("ºC")}");
           print("Fahrenheit: ${yellow(celsiusFahrenheit(await tempMinima).toStringAsFixed(2))}${yellow("ºF")}");
           print("Kelvin: ${blue(celsiusKelvin(await tempMinima).toStringAsFixed(2))}${blue("ºK")}");
         print("=========================================================");
+
+        //Adiciona valores ao objeto "relatorio"
+        relatorio.tempMinEstadoAnoC = tempMinima;
+        relatorio.tempMinEstadoAnoF = celsiusFahrenheit(tempMinima);
+        relatorio.tempMinEstadoAnoK = celsiusKelvin(tempMinima);
+
         print("");
         print("===== Temperatura média por hora do estado $opt1 =====");
           print("Celsius: ${red(tempMediaHora.toStringAsFixed(2))}${red("ºC")}");
           print("Fahrenheit: ${yellow(celsiusFahrenheit(tempMaxima).toStringAsFixed(2))}${yellow("ºF")}");
           print("Kelvin: ${blue(celsiusKelvin(tempMaxima).toStringAsFixed(2))}${blue("ºK")}");
         print("=========================================================");
+
+        //Adiciona valores ao objeto "relatorio"
+        relatorio.tempHoraEstadoC = tempMediaHora;
+        relatorio.tempHoraEstadoF = celsiusFahrenheit(tempMediaHora);
+        relatorio.tempHoraEstadoK = celsiusKelvin(tempMediaHora);
+
         print("");
         print("Buscando dados referentes ao ano do estado selecionado, aguarde... ");
 
@@ -86,18 +115,36 @@ void main() async {
           print("Celsius: ${red(mediaAno.toStringAsFixed(2))}${red("ºC")}");
           print("Fahrenheit: ${yellow(celsiusFahrenheit(await mediaAno).toStringAsFixed(2))}${yellow("ºF")}");
           print("Kelvin: ${blue(celsiusKelvin(await mediaAno).toStringAsFixed(2))}${blue("ºK")}");
+
+          //Adiciona valores ao objeto "relatorio"
+          relatorio.tempMediaEstadoAnoC = mediaAno;
+          relatorio.tempMediaEstadoAnoF = celsiusFahrenheit(mediaAno);
+          relatorio.tempMediaEstadoAnoK = celsiusKelvin(mediaAno);
+
         print("");
         print("===== Temperatura máxima anual $opt1 =====");
           print("Celsius: ${red(maxAno.toStringAsFixed(2))}${red("ºC")}");
           print("Fahrenheit: ${yellow(celsiusFahrenheit(await maxAno).toStringAsFixed(2))}${red("ºF")}");
           print("Kelvin: ${blue(celsiusKelvin(await maxAno).toStringAsFixed(2))}${blue("ºK")}");
+
+          //Adiciona valores ao objeto "relatorio"
+          relatorio.tempMaxEstadoAnoC = maxAno;
+          relatorio.tempMaxEstadoAnoF = celsiusFahrenheit(maxAno);
+          relatorio.tempMaxEstadoAnoK = celsiusKelvin(maxAno);
+
         print("");
         print("===== Temperatura mínima anual $opt1 =====");
           print("Celsius: ${red(minAno.toStringAsFixed(2))}${red("ºC")}");
           print("Fahrenheit: ${yellow(celsiusFahrenheit(minAno).toStringAsFixed(2))}${yellow("ºF")}");
           print("Kelvin: ${blue(celsiusKelvin(minAno).toStringAsFixed(2))}${blue("ºK")}");
+
+          //Adiciona valores ao objeto "relatorio"
+          relatorio.tempMinEstadoAnoC = minAno;
+          relatorio.tempMinEstadoAnoF = celsiusFahrenheit(minAno);
+          relatorio.tempMinEstadoAnoC = celsiusKelvin(minAno);
+
           print("");
-          print("Busca concluída. Pressione enter para voltar ao menu"); //TODO: daqui vai ter a opção de baixar relatório
+          print("Busca concluída. Pressione enter para voltar ao menu");
 
         } catch (e){
           print(e);
@@ -148,15 +195,25 @@ void main() async {
           print("===== Umidades =====");
           print("===== Umidade média do estado de $opt1 ====="); // g/m³
             print("Umidade: ${green(umidadeMediaMes.toStringAsFixed(2))}${green("g/m³")}");
-            print("");
+          print("");
+
+          //Adiciona dados ao objeto "relatorio"
+          relatorio.umidadeMediaEstadoMes;
+
 
           print("===== Umidade máxima do estado de $opt1 =====");
             print("Umidade: ${red(umidadeMaxMes.toStringAsFixed(2))}${red("g/m³")}");
             print("");
 
+          //Adiciona dados ao objeto "relatorio"
+          relatorio.umidadeMaxEstadoMes;
+
           print("===== Umidade mínima do estado de $opt1 =====");
             print("Umidade: ${blue(umidadeMinMes.toStringAsFixed(2))}${blue("g/m³")}");
             print("");
+
+          //Adiciona dados ao objeto "relatorio"
+          relatorio.umidadeMinEstadoMes;
 
           print("Buscando valores referentes ao ano do estado de $opt1. Aguarde...");
             print("");
@@ -165,15 +222,24 @@ void main() async {
             print("Umidade: ${green(umidadeMediaAno.toStringAsFixed(2))}${green("g/m³")}");
             print("");
 
+          //Adiciona dados ao objeto "relatorio"
+          relatorio.umidadeMediaEstadoAno;
+
           print("===== Umidade máxima anual =====");
             print("Umidade: ${red(umidadeMaxAno.toStringAsFixed(2))}${red("g/m³")}");
             print("");
+
+          //Adiciona dados ao objeto "relatorio"
+          relatorio.umidadeMaxEstadoAno;
 
           print("Umidade mínima anual =====");
             print("Umidade: ${blue(umidadeMinAno.toStringAsFixed(2))}${blue("g/m³")}");
             print("");
 
-          print("Busca concluída. Pressione enter para voltar ao menu"); //TODO: daqui vai ter a opção de baixar relatório
+          //Adiciona dados ao objeto "relatorio"
+          relatorio.umidadeMinEstadoAno;
+
+          print("Busca concluída. Pressione enter para voltar ao menu");
 
         } on Exception catch(e){
           print(e);
@@ -216,6 +282,9 @@ void main() async {
         print("===== Direção do vento mais frequente no estado de $opt1 =====");
           print("Direção: ${yellow(direcaoVentoFrequenteMes.toString())}${yellow("graus radianos")}");
 
+        //Adiciona dados ao objeto "relatorio"
+        relatorio.direcaoMaiorFrequenciaEstado;
+
         //Trabalhando com ano
         final List<List<DataLine>> listaDeMeses = await getMeses(opt1);
         final int direcaoVentoFrequenteAno = await getDirecaoVentoFrequenteAno(listaDeMeses);
@@ -227,7 +296,10 @@ void main() async {
         print("===== Direção do vento mais frequente do ano no estado de $opt1 =====");
         print("Direção: ${yellow(direcaoVentoFrequenteAno.toString())}${yellow("graus radianos")}");
 
-        print("Busca concluída. Pressione enter para voltar ao menu"); //TODO: daqui vai ter a opção de baixar relatório
+        //Adiciona dados ao objeto "relatorio"
+        relatorio.direcaoMaiorFrequenciaAno;
+
+        print("Busca concluída. Pressione enter para voltar ao menu");
 
         } on Exception catch(e){
           print(e);
@@ -239,6 +311,10 @@ void main() async {
         break;
 
       case "4":
+
+        break;
+
+      case "5":
         print("... FIM ...");
         isRunning = false;
         break;
@@ -297,32 +373,72 @@ class Relatorio {
     return '''
     === Relatório de Dados Meteorológicos ===
 
-    --- Temperatura ---
-    Média Anual (°C): $tempMediaEstadoAnoC
-    Média Anual (°F): $tempMediaEstadoAnoF
-    Média Anual (K): $tempMediaEstadoAnoK
-
-    Máxima Anual (°C): $tempMaxEstadoAnoC
-    Mínima Anual (°C): $tempMinEstadoAnoC
-
-    Média Mensal (°C): $tempMediaEstadoMesC
-    Máxima Mensal (°C): $tempMaxEstadoMesC
-    Mínima Mensal (°C): $tempMinEstadoMesC
-
-    Temperatura por Hora (°C): $tempHoraEstadoC
-
-    --- Umidade ---
-    Média Anual: $umidadeMediaEstadoAno
-    Mínima Anual: $umidadeMinEstadoAno
-    Máxima Anual: $umidadeMaxEstadoAno
-
-    Média Mensal: $umidadeMediaEstadoMes
-    Mínima Mensal: $umidadeMinEstadoMes
-    Máxima Mensal: $umidadeMaxEstadoMes
-
+    --- Temperaturas ---
+    
+    _> Médias do estado por mês
+    Celsius: $tempMediaEstadoMesC
+    Fahrenheit: $tempMediaEstadoMesF
+    Kelvin: $tempMediaEstadoMesK
+    
+    _> Máximas do estado por mês
+    Celsius: $tempMaxEstadoMesC
+    Fahrenheit: $tempMaxEstadoMesF
+    Kelvin: $tempMaxEstadoMesK
+    
+    _> Mínimas do estado por mês
+    Celsius: $tempMinEstadoMesC
+    Fahrenheit: $tempMinEstadoMesF
+    Kelvin: $tempMinEstadoMesK
+    
+    _> Média por hora do estado
+    Celsius: $tempHoraEstadoC
+    Fahrenheit: $tempHoraEstadoF
+    Kelvin: $tempHoraEstadoK
+    
+    --- Temperaturas anuais ---
+  
+    _> Média por ano:
+    Celsius: $tempMediaEstadoAnoC
+    Fahrenheit: $tempMediaEstadoAnoF
+    Kelvin: $tempMediaEstadoAnoK
+    
+    _> Máxima por ano
+    Celsius: $tempMaxEstadoAnoC
+    Fahrenheit: $tempMaxEstadoAnoF
+    Kelvin: $tempMaxEstadoAnoK
+    
+    _> Mínimas por ano
+    Celsius: $tempMinEstadoAnoC
+    Fahrenheit: $tempMinEstadoAnoF
+    Kelvin: $tempMinEstadoAnoK
+    
+    --- Umidades ---
+    
+    _> Umidade média do estado
+      Umidade: $umidadeMediaEstadoMes
+      
+    _> Umidade máxima do estado
+      Umidade: $umidadeMaxEstadoMes
+      
+    _> Umidade mínima do estado
+      Umidade: $umidadeMinEstadoMes
+      
+    _> Umidade média do ano
+      Umidade: $umidadeMediaEstadoAno
+      
+    _> Umidade máxima do ano
+      Umidade: $umidadeMaxEstadoAno
+      
+    _> Umidade mínima do ano
+      Umidade: $umidadeMinEstadoAno
+      
     --- Direção do Vento ---
-    Mais Frequente (Estado): $direcaoMaiorFrequenciaEstado°
-    Mais Frequente (Ano): $direcaoMaiorFrequenciaAno°
+    
+    _> Direção do vento mais frequente no mês
+    Direção: $direcaoMaiorFrequenciaEstado
+    
+    _> Direção do vento mais frequente no ano
+    Direção: $direcaoMaiorFrequenciaAno
 
     =========================================
     ''';
