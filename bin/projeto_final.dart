@@ -104,6 +104,7 @@ void main() async {
         } finally {
           //Esse stdin aq faz o programa esperar um toque no enter pra depois rodar o loop do menu novamente
           stdin.readLineSync();
+          consoleClear();
         }
         break;
 
@@ -179,11 +180,62 @@ void main() async {
         } finally {
           //Esse stdin aq faz o programa esperar um toque no enter pra depois rodar o loop do menu novamente
           stdin.readLineSync();
+          consoleClear();
         }
         break;
 
       case "3":
+        try {
+          
+        late dynamic opt1;
+        late dynamic opt2;
 
+        print("==========================");
+        print("Insira a opção de estado: ");
+        print("1 - SC");
+        print("2 - SP");
+        print("==========================");
+        opt1 = stdin.readLineSync();
+
+        if (opt1 == "1") {
+          opt1 = "SC";
+        } else if (opt1 == "2") {
+          opt1 = "SP";
+        }
+
+        print("==========================");
+        print("Insira a opção de mês em número:  ");
+        opt2 = stdin.readLineSync();
+
+        //Trabalhando com mês em específico
+        final listaDeObj = gerarListaObj(opt1, opt2);
+
+        final int direcaoVentoFrequenteMes = await getDirecaoVentoFrequenteMes(await listaDeObj);
+
+        print("");
+        print("===== Direção do vento mais frequente no estado de $opt1 =====");
+          print("Direção: ${yellow(direcaoVentoFrequenteMes.toString())}${yellow("graus radianos")}");
+
+        //Trabalhando com ano
+        final List<List<DataLine>> listaDeMeses = await getMeses(opt1);
+        final int direcaoVentoFrequenteAno = await getDirecaoVentoFrequenteAno(listaDeMeses);
+
+        print("");
+        print("Buscando valores referentes ao ano do estado de $opt1. Aguarde...");
+        print("");
+
+        print("===== Direção do vento mais frequente do ano no estado de $opt1 =====");
+        print("Direção: ${yellow(direcaoVentoFrequenteAno.toString())}${yellow("graus radianos")}");
+
+        print("Busca concluída. Pressione enter para voltar ao menu"); //TODO: daqui vai ter a opção de baixar relatório
+
+        } on Exception catch(e){
+          print(e);
+        } finally {
+          //Esse stdin aq faz o programa esperar um toque no enter pra depois rodar o loop do menu novamente
+          stdin.readLineSync();
+          consoleClear();
+        }
         break;
 
       case "4":
@@ -198,6 +250,82 @@ void main() async {
         stdin.readLineSync();
         break;
     }
+  }
+}
+
+//TODO: Função que salva o relatório como um arquivo .txt
+
+
+class Relatorio {
+  //Requisitos de Temperatura - unidades -> C Celisus - F Fahrenheit - K Kelvin
+  late double tempMediaEstadoAnoC;
+  late double tempMediaEstadoAnoF;
+  late double tempMediaEstadoAnoK;
+  late double tempMaxEstadoAnoC;
+  late double tempMaxEstadoAnoF;
+  late double tempMaxEstadoAnoK;
+  late double tempMinEstadoAnoC;
+  late double tempMinEstadoAnoF;
+  late double tempMinEstadoAnoK;
+  late double tempMediaEstadoMesC;
+  late double tempMediaEstadoMesF;
+  late double tempMediaEstadoMesK;
+  late double tempMaxEstadoMesC;
+  late double tempMaxEstadoMesF;
+  late double tempMaxEstadoMesK;
+  late double tempMinEstadoMesC;
+  late double tempMinEstadoMesF;
+  late double tempMinEstadoMesK;
+  late double tempHoraEstadoC;
+  late double tempHoraEstadoF;
+  late double tempHoraEstadoK;
+
+  //Requisitos de Umidade do ar
+  late double umidadeMediaEstadoAno;
+  late double umidadeMinEstadoAno;
+  late double umidadeMaxEstadoAno;
+  late double umidadeMediaEstadoMes;
+  late double umidadeMaxEstadoMes;
+  late double umidadeMinEstadoMes;
+
+  //Requisitos Direção do vento - unidades -> graus radianos
+  late int direcaoMaiorFrequenciaEstado;
+  late int direcaoMaiorFrequenciaAno;
+
+  @override
+  String toString() {
+    return '''
+    === Relatório de Dados Meteorológicos ===
+
+    --- Temperatura ---
+    Média Anual (°C): $tempMediaEstadoAnoC
+    Média Anual (°F): $tempMediaEstadoAnoF
+    Média Anual (K): $tempMediaEstadoAnoK
+
+    Máxima Anual (°C): $tempMaxEstadoAnoC
+    Mínima Anual (°C): $tempMinEstadoAnoC
+
+    Média Mensal (°C): $tempMediaEstadoMesC
+    Máxima Mensal (°C): $tempMaxEstadoMesC
+    Mínima Mensal (°C): $tempMinEstadoMesC
+
+    Temperatura por Hora (°C): $tempHoraEstadoC
+
+    --- Umidade ---
+    Média Anual: $umidadeMediaEstadoAno
+    Mínima Anual: $umidadeMinEstadoAno
+    Máxima Anual: $umidadeMaxEstadoAno
+
+    Média Mensal: $umidadeMediaEstadoMes
+    Mínima Mensal: $umidadeMinEstadoMes
+    Máxima Mensal: $umidadeMaxEstadoMes
+
+    --- Direção do Vento ---
+    Mais Frequente (Estado): $direcaoMaiorFrequenciaEstado°
+    Mais Frequente (Ano): $direcaoMaiorFrequenciaAno°
+
+    =========================================
+    ''';
   }
 }
 
@@ -457,42 +585,6 @@ Future<DataLine> gerarObj(String userPath, int index) async {
 
   return d;
 }
-abstract class Relatorio {
-  //Requisitos de Temperatura - unidades -> C Celisus - F Fahrenheit - K Kelvin
-  late double tempMediaEstadoAnoC;
-    late double tempMediaEstadoAnoF;
-    late double tempMediaEstadoAnoK;
-  late double tempMaxEstadoAnoC;
-    late double tempMaxEstadoAnoF;
-    late double tempMaxEstadoAnoK;
-  late double tempMinEstadoAnoC;
-    late double tempMinEstadoAnoF;
-    late double tempMinEstadoAnoK;
-  late double tempMediaEstadoMesC;
-    late double tempMediaEstadoMesF;
-    late double tempMediaEstadoMesK;
-  late double tempMaxEstadoMesC;
-    late double tempMaxEstadoMesF;
-    late double tempMaxEstadoMesK;
-  late double tempMinEstadoMesC;
-    late double tempMinEstadoMesF;
-    late double tempMinEstadoMesK;
-  late double tempHoraEstadoC;
-    late double tempHoraEstadoF;
-    late double tempHoraEstadoK;
-
-  //Requisitos de Umidade do ar
-  late double umidadeMediaEstadoAno;
-  late double umidadeMinEstadoAno;
-  late double umidadeMaxEstadoAno;
-  late double umidadeMediaEstadoMes;
-  late double umidadeMaxEstadoMes;
-  late double umidadeMinEstadoMes;
-
-  //Requisitos Direção do vento - unidades -> graus radianos
-  late int direcaoMaiorFrequenciaEstado;
-  late int direcaoMaiorFrequenciaAno;
-}
 
 abstract class dadosOrganizados {
   //Classe que deixa os dados de forma mais acessível. Cada linha será um objeto
@@ -511,15 +603,3 @@ class DataLine extends dadosOrganizados {}
 void consoleClear() {
   print('\n' * 100);
 }
-
-//TODO:Apagar depois...
-//CASE 3
-//Trabalhando com mês
-// final listaDeObj = gerarListaObj("SC", "1");
-// final direcaoFrequente = await getDirecaoVentoFrequenteMes(await listaDeObj);
-// print("Direção mais frequente: $direcaoFrequente");
-//
-// //Trabalhando com ano
-// final List<List<DataLine>> listaDeMeses = await getMeses("SC");
-// final int direcaoVentoFrequenteAno = await getDirecaoVentoFrequenteAno(listaDeMeses);
-// print("Direção do vento mais frequente no último ano: $direcaoVentoFrequenteAno");
