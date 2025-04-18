@@ -6,13 +6,13 @@ import 'package:yaansi/yaansi.dart';
 void main() async {
   bool isRunning = true;
   while (isRunning) {
-    //TODO: limpar código com função consoleClear()
     print("Olá, Leandro. Que relatório você precisa?");
     print("1 - Temperatura");
     print("2 - Umidade");
     print("3 - Direção do vento");
     print("4 - Salvar relatório");
-    print("5 - Sair do programa");
+    print("5 - Teste rápido (roda todas as opções)");
+    print("6 - Sair do programa");
     print("Digite o número da opção desejada: ");
     String? opt = stdin.readLineSync();
 
@@ -62,9 +62,9 @@ void main() async {
         print("=========================================================");
 
           //Adicionar valores ao objeto "relatorio"
-          relatorio.tempMediaEstadoAnoC = tempMediaEstado;
-          relatorio.tempMediaEstadoAnoF = celsiusFahrenheit(tempMediaEstado);
-          relatorio.tempMediaEstadoAnoK = celsiusKelvin(tempMediaEstado);
+          relatorio.tempMediaEstadoMesC = tempMediaEstado;
+          relatorio.tempMediaEstadoMesF = celsiusFahrenheit(tempMediaEstado);
+          relatorio.tempMediaEstadoMesK = celsiusKelvin(tempMediaEstado);
 
         print("");
         print("===== Temperatura máxima do mês no estado $opt1 =====");
@@ -198,7 +198,7 @@ void main() async {
           print("");
 
           //Adiciona dados ao objeto "relatorio"
-          relatorio.umidadeMediaEstadoMes;
+          relatorio.umidadeMediaEstadoMes = umidadeMediaMes;
 
 
           print("===== Umidade máxima do estado de $opt1 =====");
@@ -206,14 +206,14 @@ void main() async {
             print("");
 
           //Adiciona dados ao objeto "relatorio"
-          relatorio.umidadeMaxEstadoMes;
+          relatorio.umidadeMaxEstadoMes = umidadeMaxMes;
 
           print("===== Umidade mínima do estado de $opt1 =====");
             print("Umidade: ${blue(umidadeMinMes.toStringAsFixed(2))}${blue("g/m³")}");
             print("");
 
           //Adiciona dados ao objeto "relatorio"
-          relatorio.umidadeMinEstadoMes;
+          relatorio.umidadeMinEstadoMes = umidadeMinMes;
 
           print("Buscando valores referentes ao ano do estado de $opt1. Aguarde...");
             print("");
@@ -223,21 +223,21 @@ void main() async {
             print("");
 
           //Adiciona dados ao objeto "relatorio"
-          relatorio.umidadeMediaEstadoAno;
+          relatorio.umidadeMediaEstadoAno = umidadeMediaAno;
 
           print("===== Umidade máxima anual =====");
             print("Umidade: ${red(umidadeMaxAno.toStringAsFixed(2))}${red("g/m³")}");
             print("");
 
           //Adiciona dados ao objeto "relatorio"
-          relatorio.umidadeMaxEstadoAno;
+          relatorio.umidadeMaxEstadoAno = umidadeMaxAno;
 
           print("Umidade mínima anual =====");
             print("Umidade: ${blue(umidadeMinAno.toStringAsFixed(2))}${blue("g/m³")}");
             print("");
 
           //Adiciona dados ao objeto "relatorio"
-          relatorio.umidadeMinEstadoAno;
+          relatorio.umidadeMinEstadoAno = umidadeMinAno;
 
           print("Busca concluída. Pressione enter para voltar ao menu");
 
@@ -280,24 +280,25 @@ void main() async {
 
         print("");
         print("===== Direção do vento mais frequente no estado de $opt1 =====");
-          print("Direção: ${yellow(direcaoVentoFrequenteMes.toString())}${yellow("graus radianos")}");
+          print("Direção: ${yellow(direcaoVentoFrequenteMes.toString())}${yellow(" graus radianos")}");
 
         //Adiciona dados ao objeto "relatorio"
-        relatorio.direcaoMaiorFrequenciaEstado;
-
-        //Trabalhando com ano
-        final List<List<DataLine>> listaDeMeses = await getMeses(opt1);
-        final int direcaoVentoFrequenteAno = await getDirecaoVentoFrequenteAno(listaDeMeses);
+        relatorio.direcaoMaiorFrequenciaEstado = direcaoVentoFrequenteMes;
 
         print("");
         print("Buscando valores referentes ao ano do estado de $opt1. Aguarde...");
         print("");
 
+        //Trabalhando com ano
+        final List<List<DataLine>> listaDeMeses = await getMeses(opt1);
+        final int direcaoVentoFrequenteAno = await getDirecaoVentoFrequenteAno(listaDeMeses);
+
+
         print("===== Direção do vento mais frequente do ano no estado de $opt1 =====");
-        print("Direção: ${yellow(direcaoVentoFrequenteAno.toString())}${yellow("graus radianos")}");
+        print("Direção: ${yellow(direcaoVentoFrequenteAno.toString())}${yellow(" graus radianos")}");
 
         //Adiciona dados ao objeto "relatorio"
-        relatorio.direcaoMaiorFrequenciaAno;
+        relatorio.direcaoMaiorFrequenciaAno = direcaoVentoFrequenteAno;
 
         print("Busca concluída. Pressione enter para voltar ao menu");
 
@@ -311,10 +312,15 @@ void main() async {
         break;
 
       case "4":
-
+        salvarArquivoTxt(relatorio);
+        print("Relatório salvo com sucesso!");
         break;
 
       case "5":
+        //TODO: Rodar todos os cases de uma vez
+        break;
+
+      case "6":
         print("... FIM ...");
         isRunning = false;
         break;
@@ -330,7 +336,10 @@ void main() async {
 }
 
 //TODO: Função que salva o relatório como um arquivo .txt
-
+void salvarArquivoTxt(Relatorio relatorio) async {
+  final arquivo = File('relatoriosTeste/relatorio.txt');
+  await arquivo.writeAsString(relatorio.toString());
+}
 
 class Relatorio {
   //Requisitos de Temperatura - unidades -> C Celisus - F Fahrenheit - K Kelvin
