@@ -1,0 +1,71 @@
+    === Relatório de Dados Meteorológicos ===
+
+    --- Temperaturas ---
+    
+    _> Médias do estado por mês
+    Celsius: 0.0
+    Fahrenheit: 0.0
+    Kelvin: 0.0
+    
+    _> Máximas do estado por mês
+    Celsius: 0.0
+    Fahrenheit: 0.0
+    Kelvin: 0.0
+    
+    _> Mínimas do estado por mês
+    Celsius: 0.0
+    Fahrenheit: 0.0
+    Kelvin: 0.0
+    
+    _> Média por hora do estado
+    Celsius: 0.0
+    Fahrenheit: 0.0
+    Kelvin: 0.0
+    
+    --- Temperaturas anuais ---
+  
+    _> Média por ano:
+    Celsius: 0.0
+    Fahrenheit: 0.0
+    Kelvin: 0.0
+    
+    _> Máxima por ano
+    Celsius: 0.0
+    Fahrenheit: 0.0
+    Kelvin: 0.0
+    
+    _> Mínimas por ano
+    Celsius: 0.0
+    Fahrenheit: 0.0
+    Kelvin: 0.0
+    
+    --- Umidades ---
+    
+    _> Umidade média do estado
+      Umidade: 0.0
+      
+    _> Umidade máxima do estado
+      Umidade: 0.0
+      
+    _> Umidade mínima do estado
+      Umidade: 0.0
+      
+    _> Umidade média do ano
+      Umidade: 0.0
+      
+    _> Umidade máxima do ano
+      Umidade: 0.0
+      
+    _> Umidade mínima do ano
+      Umidade: 0.0
+      
+    --- Direção do Vento ---
+    
+    _> Direção do vento mais frequente no mês
+    Direção: 0
+    
+    _> Direção do vento mais frequente no ano
+    Direção: 0
+
+    =========================================
+    

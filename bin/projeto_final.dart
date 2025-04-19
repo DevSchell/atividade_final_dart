@@ -47,8 +47,6 @@ void main() async {
           opt1 = "SP";
         }
 
-
-
         //Lógica com mês específico
         try {
         final listaDeObj = gerarListaObj(opt1.toString(), opt2.toString());
@@ -591,7 +589,8 @@ void salvarArquivoTxt(Relatorio relatorio) async {
     await dir.create(recursive: true);
   }
 
-  final arquivo = File('${dir.path}/relatorio.txt');
+  final arquivo = File('${dir.path}/relatorio_${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}_'
+      '${DateTime.now().hour}_${DateTime.now().minute}_${DateTime.now().second}.txt');
   await arquivo.writeAsString(relatorio.toString());
 }
 
