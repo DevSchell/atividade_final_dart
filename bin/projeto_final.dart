@@ -321,14 +321,38 @@ void main() async {
         break;
 
       case "4":
-        try {
-          salvarArquivoTxt(relatorio);
-          print("Relatório salvo com sucesso em relatoriosTeste/relatorio.txt");
-        } catch (e) {
-          print("Erro ao salvar o relatório: $e");
-        } finally {
-          stdin.readLineSync();
-          consoleClear();
+        print("Qual relatório você quer salvar?");
+        print("1 - Clima");
+        print("2 - Umidade");
+        print("3 - Direção do vento");
+        print("Insira a opção pelo número que a representa: ");
+        dynamic opt2 = stdin.readLineSync();
+
+        switch(opt2) {
+          case "1":
+            try {
+              relatorio.printDadosClima();
+              salvarArquivoTxt(relatorio, opt2);
+              print("Relatório salvo com sucesso em relatoriosTeste/relatorio.txt");
+            } catch (e) {
+              print("Erro ao salvar o relatório: $e");
+            } finally {
+              stdin.readLineSync();
+              consoleClear();
+            }
+            break;
+
+          case "2":
+            relatorio.printDadosUmidade();
+            break;
+
+          case "3":
+            relatorio.printDadosDirecaoVento();
+            break;
+
+          default:
+            print("Opção inválida! Insira um numeral válido!");
+            break;
         }
         break;
 
@@ -565,7 +589,7 @@ void main() async {
 
       default:
         print(
-          "Opção inválida. Por favor insira apenas um dos numerias referentes às escolhas do menu.",
+          "Opção inválida. Por favor insira apenas um dos números referentes às escolhas do menu.",
         );
         stdin.readLineSync();
         break;
@@ -581,7 +605,7 @@ double grausRadianos(int graus){
   return rad;
 }
 
-void salvarArquivoTxt(Relatorio relatorio) async {
+void salvarArquivoTxt(Relatorio relatorio, String opcao) async {
   final dir = Directory('relatoriosTeste');
 
   // Cria a pasta se não existir
@@ -591,7 +615,20 @@ void salvarArquivoTxt(Relatorio relatorio) async {
 
   final arquivo = File('${dir.path}/relatorio_${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}_'
       '${DateTime.now().hour}_${DateTime.now().minute}_${DateTime.now().second}.txt');
-  await arquivo.writeAsString(relatorio.toString());
+
+    switch(opcao){
+      case "1":
+        await arquivo.writeAsString(relatorio.printDadosClima());
+        break;
+
+      case "2":
+        await arquivo.writeAsString(relatorio.printDadosUmidade());
+        break;
+
+      case "3":
+        await arquivo.writeAsString(relatorio.printDadosDirecaoVento());
+        break;
+    }
 }
 
 class Relatorio {
@@ -630,8 +667,7 @@ class Relatorio {
   late int direcaoMaiorFrequenciaEstado = 0;
   late int direcaoMaiorFrequenciaAno = 0;
 
-  @override
-  String toString() {
+  String printDadosClima() {
     return '''
     === Relatório de Dados Meteorológicos ===
 
@@ -673,27 +709,41 @@ class Relatorio {
     Celsius: $tempMinEstadoAnoC
     Fahrenheit: $tempMinEstadoAnoF
     Kelvin: $tempMinEstadoAnoK
+    =========================================
+    ''';
+  }
+
+  String printDadosUmidade() {
+    return '''
+    === Relatório de Dados Meteorológicos ===
+
+    --- Umidade ---
     
-    --- Umidades ---
-    
-    _> Umidade média do estado
-      Umidade: $umidadeMediaEstadoMes
+     _> Umidade média do estado
+     Umidade: $umidadeMediaEstadoMes
       
     _> Umidade máxima do estado
-      Umidade: $umidadeMaxEstadoMes
+    Umidade: $umidadeMaxEstadoMes
       
     _> Umidade mínima do estado
-      Umidade: $umidadeMinEstadoMes
+    Umidade: $umidadeMinEstadoMes
       
     _> Umidade média do ano
-      Umidade: $umidadeMediaEstadoAno
+    Umidade: $umidadeMediaEstadoAno
       
     _> Umidade máxima do ano
-      Umidade: $umidadeMaxEstadoAno
+    Umidade: $umidadeMaxEstadoAno
       
     _> Umidade mínima do ano
-      Umidade: $umidadeMinEstadoAno
-      
+    Umidade: $umidadeMinEstadoAno
+    =========================================
+    ''';
+  }
+
+  String printDadosDirecaoVento() {
+    return '''
+    === Relatório de Dados Meteorológicos ===
+
     --- Direção do Vento ---
     
     _> Direção do vento mais frequente no mês
@@ -701,10 +751,11 @@ class Relatorio {
     
     _> Direção do vento mais frequente no ano
     Direção: $direcaoMaiorFrequenciaAno
-
     =========================================
     ''';
   }
+
+
 }
 
 //Função pra converter celsius pra kelvin
