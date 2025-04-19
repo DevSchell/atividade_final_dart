@@ -566,8 +566,13 @@ void main() async {
 double grausRadianos(int graus) => graus * (3.14/180);
 
 void salvarArquivoTxt(Relatorio relatorio) async {
+  try{
+
   final arquivo = File('relatoriosTeste/relatorio.txt');
   await arquivo.writeAsString(relatorio.toString());
+  } on Exception catch (e) {
+    print(e);
+  }
 }
 
 class Relatorio {
@@ -691,6 +696,7 @@ double celsiusFahrenheit(double grausCelsius) => grausCelsius * 1.8 + 32;
 
 //Função pra conseguir a direção do vento mais frequente do ano
 Future<int> getDirecaoVentoFrequenteAno(List<List<DataLine>> listaMeses) async{
+
   Map<int, int> listaGraus = {};
   List<int> valoresDeGrau = []; //Aqui vai ter as frequências mais altas de cada mês
 
@@ -704,7 +710,6 @@ Future<int> getDirecaoVentoFrequenteAno(List<List<DataLine>> listaMeses) async{
 
   int grauMaisFrequente = listaGraus.entries.reduce((a, b) => a.value > b.value ? a : b).key;
   return Future.value(grauMaisFrequente);
-
 }
 
 //Função pra conseguir a direção mais frequente do vento do mês
